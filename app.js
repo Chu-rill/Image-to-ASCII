@@ -1,4 +1,4 @@
-const asciiCharacters = " .:-=+*%@#";
+const asciiCharacters = " .,:;i1tfLCG08@"; // More detailed character set
 
 function convertToAscii(imageData, width) {
   let asciiImage = "";
@@ -19,8 +19,18 @@ function convertToAscii(imageData, width) {
   return asciiImage;
 }
 
+let uploadedFile = null;
+
 document.getElementById("upload").addEventListener("change", function (event) {
-  const file = event.target.files[0];
+  uploadedFile = event.target.files[0];
+});
+
+document.querySelector("button").addEventListener("click", function () {
+  if (!uploadedFile) {
+    alert("Please upload an image first.");
+    return;
+  }
+
   const reader = new FileReader();
 
   reader.onload = function (e) {
@@ -31,7 +41,7 @@ document.getElementById("upload").addEventListener("change", function (event) {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
-      const maxWidth = 100; // Set a maximum width for ASCII art
+      const maxWidth = 200; // Increase maximum width for higher resolution ASCII
       const scale = maxWidth / img.width;
       canvas.width = maxWidth;
       canvas.height = img.height * scale;
@@ -50,5 +60,5 @@ document.getElementById("upload").addEventListener("change", function (event) {
     };
   };
 
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(uploadedFile);
 });
